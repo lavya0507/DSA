@@ -15,10 +15,10 @@ int main()
     for(k=n; k>i; k--)
     {  a1[k] = a1[k-1]; }
     a1[i] = target;
-    n++;
     printf("\nFinal Array: ");
-    for(k=0; k<n; k++)
+    for(k=0; k<n+1; k++)
     { printf("%d ", a1[k]); }
     return 0;
 }
+
 
