@@ -22,4 +22,5 @@ int main()
     { printf("Not found\n"); }
     printf("Number of comparisons: %d", i+1);
     return 0;
+
 }
