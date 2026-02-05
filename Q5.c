@@ -18,19 +18,14 @@ int main()
     for(i=0; i<m; i++)
     { arr1[i+m] = arr2[i]; }
 
-    for (i = 0; i < n + m - 1; i++)
-{
-    for (j = 0; j < n + m - i - 1; j++)
-    {
-        if (arr1[j] > arr1[j + 1])
-        {
-            int temp = arr1[j];
-            arr1[j] = arr1[j + 1];
-            arr1[j + 1] = temp;
-        }
+    for(i=0; i<n+m; i++)
+    { for(j=0; j<n+m; j++)
+       { if(arr1[j] > arr1[j+1])
+         { int temp = arr1[j];
+           arr1[j] = arr1[j+1];
+           arr1[j+1] = temp; }
+       }
     }
-}
-
     printf("\n");
     for(i=0; i<n+m; i++)
     { printf("%d", arr1[i]); }
