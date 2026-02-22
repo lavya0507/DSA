@@ -1,21 +1,38 @@
-#include <stdio.h>
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+  int data;
+  struct node *next;
+} node;
+node *createnode(int data){
+  node *newnode = malloc(sizeof(node));
+  newnode->data = data;
+  newnode->next = NULL;
+  return newnode;
+}
 int main()
 {
-    int i, j, n, count=0;
-    printf("Enter the size of the array: ");
-    scanf("%d", &n);
-    int arr[n];
-    for(i=0; i<n; i++)
-    { printf("Enter the element at position [%d]: ", i);
-      scanf("%d", &arr[i]); }
-    for(i=0; i<n; i++)
-    { int sum = 0;
-      for(j=i; j<n; j++)
-      { sum += arr[j];
-        if(sum == 0)
-        { count++; }
-      }
-    }
-    printf("%d", count);
-    return 0;
+  int i, n, val;
+  printf("Enter the number of nodes: ");
+  scanf("%d", &n);
+  node *head = NULL;
+  node *temp = NULL;
+  for(i=0; i<n; i++)
+  { printf("Enter element at node %d: ", i+1);
+    scanf("%d", &val);
+    node *link = createnode(val);
+    if(head == NULL)
+    { head = link;
+      temp = head; }
+    else
+    { temp->next = link;
+      temp = link; }
+  }
+  node *print = head;
+  printf("Linked List:\n");
+  for(i=0; i<n; i++)
+  { printf("%d ", print->data);
+    print = print->next;
+  }
+  return 0;
 }
