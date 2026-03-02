@@ -1,23 +1,27 @@
 #include<stdio.h>
 #include<stdlib.h>
 typedef struct node{
-  int data;
+  int data1;
+  int data2;
   struct node *next;
 } node;
-node *createnode(int val) {
+node *createnode(int val1, int val2) {
   node *new_node = malloc(sizeof(node));
-  new_node->data = val;
+  new_node->data1 = val1;
+  new_node->data2 = val2;
   new_node->next = NULL;
   return new_node;
 }
 node *createlinkedlist(int num) {
-  int i, val;
+  int i, val1, val2;
   node *head = NULL;
   node *tail = NULL;
   for(i=0; i<num; i++)
-  { printf("Enter the value at node %d: ", i+1);
-    scanf("%d", &val);
-    node *temp = createnode(val);
+  { printf("Enter the coefficient at node %d: ", i+1);
+    scanf("%d", &val1);
+    printf("Enter the power at node %d: ", i+1);
+    scanf("%d", &val2);
+    node *temp = createnode(val1, val2);
     if(head == NULL)
     { head = temp;
       tail = head; }
@@ -29,29 +33,22 @@ node *createlinkedlist(int num) {
 }
 void Traverse(node *head) {
   node *temp = head;
-  printf("\nLinked List: ");
+  printf("\nLinked List:\n");
   while(temp != NULL)
-  { printf("%d ", temp->data);
+  { printf("%d ", temp->data1);
+    printf("%d\n", temp->data2);
     temp = temp->next; }
 }
-node *Rotate(node *head, int k){
-  node *curr = head;
-  node *temp = head;
-  int i, count=0;
-  while(curr != NULL)
-  { count++;
-    curr = curr->next; }
-  curr = head;
-  k = k % count;
-  int step = count - k;
-  while(curr->next != NULL)
-  { curr = curr->next; }
-  curr->next = head;
-  for(i=1; i<step; i++)
-  { temp = temp->next; }
-  node *new_head = temp->next;
-  temp->next = NULL;
-  return new_head;
+void polynomial(node *head) {
+  node *poly = head;
+  printf("The polynomial is: ");
+  while(poly != NULL)
+  { if(poly->data2 == 0)
+    { printf(" %d", poly->data1); }
+    else
+    { printf("%dx^%d +", poly->data1, poly->data2); }
+    poly = poly->next;
+  }
 }
 int main()
 {
@@ -59,10 +56,6 @@ int main()
   printf("Enter number of nodes: ");
   scanf("%d", &n);
   node *link_list = createlinkedlist(n);
-  Traverse(link_list);
-  printf("\nEnter number of times you want to rotate the list: ");
-  scanf("%d", &k);
-  link_list = Rotate(link_list, k);
-  Traverse(link_list);
+  polynomial(link_list);
   return 0;
 }
