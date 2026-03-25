@@ -60,13 +60,12 @@ int main()
     }
     for(int i=0;i<n;i++)
       {  if(nodes[i] != NULL)
-         {
-            int left = 2*i + 1;
-            int right = 2*i + 2;
-            if(left < n)
-                nodes[i]->left = nodes[left];
-            if(right < n)
-                nodes[i]->right = nodes[right];
+         { int left = 2*i + 1;
+           int right = 2*i + 2;
+           if(left < n)
+             nodes[i]->left = nodes[left];
+           if(right < n)
+             nodes[i]->right = nodes[right];
         }
     }
 
