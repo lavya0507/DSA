@@ -1,52 +1,48 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <vector>
+#include <queue>
 
-#define MAX 100
+using namespace std;
 
-int adj[MAX][MAX]; // Adjacency matrix
-int visited[MAX];
-int stack[MAX];
-int top = -1;
+class Solution {
+public:
+    vector<int> topologicalSort(int V, vector<int> adj[]) {
+        vector<int> inDegree(V, 0);
+        vector<int> result;
+        queue<int> q;
 
-void push(int v) {
-    stack[++top] = v;
-}
-
-void dfs(int v, int numNodes) {
-    visited[v] = 1;
-    
-    for (int i = 0; i < numNodes; i++) {
-        // If there's an edge and neighbor isn't visited
-        if (adj[v][i] && !visited[i]) {
-            dfs(i, numNodes);
+        // 1. Calculate in-degree for every vertex
+        for (int i = 0; i < V; i++) {
+            for (int neighbor : adj[i]) {
+                inDegree[neighbor]++;
+            }
         }
-    }
-    
-    // Push to stack after visiting all neighbors
-    push(v);
-}
 
-void topologicalSort(int numNodes) {
-    for (int i = 0; i < numNodes; i++) {
-        if (!visited[i]) {
-            dfs(i, numNodes);
+        // 2. Push all vertices with 0 in-degree into the queue
+        for (int i = 0; i < V; i++) {
+            if (inDegree[i] == 0) {
+                q.push(i);
+            }
         }
+
+        // 3. Process the queue
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            result.push_back(u);
+
+            // For every neighbor, reduce its in-degree
+            for (int v : adj[u]) {
+                inDegree[v]--;
+                // If in-degree becomes 0, add to queue
+                if (inDegree[v] == 0) {
+                    q.push(v);
+                }
+            }
+        }
+
+        // If result size < V, there's a cycle (not a DAG)
+        if (result.size() != V) return {}; 
+
+        return result;
     }
-
-    printf("Topological Ordering: ");
-    while (top != -1) {
-        printf("%d ", stack[top--]);
-    }
-    printf("\n");
-}
-
-int main() {
-    int nodes = 6;
-    adj[5][2] = 1; adj[5][0] = 1;
-    adj[4][0] = 1; adj[4][1] = 1;
-    adj[2][3] = 1;
-    adj[3][1] = 1;
-
-    topologicalSort(nodes);
-    return 0;
-}
+};
